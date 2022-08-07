@@ -19,3 +19,5 @@ $port = ваш вільний порт; //Наприклад 10000
 4. Зберігаємо файл.
 5. Через консоль запускаєм веб сокет. Водим команду: php /var/www/html/php/server.php
 6. Заходим через веб браузер на ІП вашого веб сервера та керуєм польотом
+
+![Image alt](https://github.com/zDimaBY/iNavFlightControlWebServer/blob/main/img/Readme/screenshot.png)
