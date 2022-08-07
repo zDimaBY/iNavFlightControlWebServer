@@ -16,7 +16,7 @@
         crossorigin=""></script>
 
 
-    
+
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
 </head>
 
@@ -65,54 +65,54 @@
                     <span class="submitButton" id="rangeValueCH_4">10</span>OSD Mod
                 </div>
                 <div>
-                    CH 6<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_5" onchange="CH();"
-                        list="rangeListCH_6" />
+                    CH 6<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_5"
+                        onchange="CH();" list="rangeListCH_6" />
                     <span class="submitButton" id="rangeValueCH_5">50</span>Flight Modes
                 </div>
                 <div>
-                    CH 7<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_6" onchange="CH();"
-                        list="rangeListCH_7" />
-                    <span class="submitButton" id="rangeValueCH_6">50</span>
+                    CH 7<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_6"
+                        onchange="CH();" list="rangeListCH_7" />
+                    <span class="submitButton" id="rangeValueCH_6">0</span>
                 </div>
                 <div>
-                    CH 8<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_7" onchange="CH();"
-                        list="rangeListCH_8" />
+                    CH 8<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_7"
+                        onchange="CH();" list="rangeListCH_8" />
                     <span class="submitButton" id="rangeValueCH_7">50</span>Arming 2.5-100%
                 </div>
                 <div>
-                    CH 9<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_8" onchange="CH();"
-                        list="rangeListCH_9" />
+                    CH 9<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_8"
+                        onchange="CH();" list="rangeListCH_9" />
                     <span class="submitButton" id="rangeValueCH_8">50</span>AUTO TUNE 80-100%
                 </div>
                 <div>
-                    CH 10<input class="styleRange CH_5" type="range" min="0" value="95" max="99" id="ValueCH_9" onchange="CH();"
-                        list="rangeListCH_10" />
+                    CH 10<input class="styleRange CH_5" type="range" min="0" value="95" max="99" id="ValueCH_9"
+                        onchange="CH();" list="rangeListCH_10" />
                     <span class="submitButton" id="rangeValueCH_9">95</span>GSM ON 80-100%
                 </div>
                 <div>
-                    CH 11<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_10" onchange="CH();"
-                        list="rangeListCH_11" />
-                    <span class="submitButton" id="rangeValueCH_10">50</span>
+                    CH 11<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_10"
+                        onchange="CH();" list="rangeListCH_11" />
+                    <span class="submitButton" id="rangeValueCH_10">0</span>
                 </div>
                 <div>
-                    CH 12<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_11" onchange="CH();"
-                        list="rangeListCH_12" />
-                    <span class="submitButton" id="rangeValueCH_11">50</span>
+                    CH 12<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_11"
+                        onchange="CH();" list="rangeListCH_12" />
+                    <span class="submitButton" id="rangeValueCH_11">0</span>
                 </div>
                 <div>
-                    CH 13<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_12" onchange="CH();"
-                        list="rangeListCH_13" />
-                    <span class="submitButton" id="rangeValueCH_12">50</span>
+                    CH 13<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_12"
+                        onchange="CH();" list="rangeListCH_13" />
+                    <span class="submitButton" id="rangeValueCH_12">0</span>
                 </div>
                 <div>
-                    CH 14<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_13" onchange="CH();"
-                        list="rangeListCH_14" />
+                    CH 14<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_13"
+                        onchange="CH();" list="rangeListCH_14" />
                     <span class="submitButton" id="rangeValueCH_13">0</span>FAILSAFE 5-100%, cam 2 - 0-100%
                 </div>
                 <div>
-                    CH 15<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_14" onchange="CH();"
-                        list="rangeListCH_15" />
-                    <span class="submitButton" id="rangeValueCH_14">50</span>
+                    CH 15<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_14"
+                        onchange="CH();" list="rangeListCH_15" />
+                    <span class="submitButton" id="rangeValueCH_14">0</span>
                 </div>
             </div>
         </div>
