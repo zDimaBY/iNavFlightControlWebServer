@@ -24,37 +24,45 @@
     <div id="map"></div>
     <div class="position">
         <div class="CH_Control">
+            <h3>Налаштування IP та порту</h3>
+            <?php
+            $jsonString = file_get_contents('./json/settings.json'); // Отримуємо вміст файлу settings.json
+            $data = json_decode($jsonString, true); // Декодуємо JSON-об'єкт у асоціативний масив
+            echo '<form id="settings-form">
+            <label for="ip">IP адреса:</label>
+            <input type="text" id="ip" name="ip" value="' . $data['ip'] . '">
+            <label for="port">Порт:</label>
+            <input type="text" id="port" name="port" value="' . $data['port'] . '">
+            <button type="submit">Зберегти</button>
+          </form>';// https://jsfiddle.net/zDimaBY/ntk6qow0/ - тест джойстика
+            ?>
             <p class="r1">Управління польотом</p>
             <div class="boxFlex">
                 <div>
-                    <p class="">Yaw [R]</p>
+                    <p class="">Roll [A]</p>
                     <div class="boxFlex">
                         <input class="styleRange rotateRange" type="range" min="0" max="99" id="ValueCH_3"
                             onchange="CH();" list="rangeListCH_4" />
-                        <span class="submitButtonRange submitButton" id="rangeValueCH_3">
-                            50
-                        </span>
+                        <span class="submitButtonRange submitButton" id="rangeValueCH_3">50</span>
                     </div>
                 </div>
                 <div>
-                    <p class="">Throttle [T]</p>
-                    <input class="styleRange" type="range" min="0" value="0" max="99" id="ValueCH_2" onchange="CH();"
-                        list="rangeListCH_3" />
-                    <span class="submitButton" id="rangeValueCH_2">0</span>
-                </div>
-                <div>
-                    <p class="">Roll [A]</p>
-                    <input class="styleRange" type="range" min="0" max="99" id="ValueCH_0" onchange="CH();">
-                    <span class="submitButton" id="rangeValueCH_0">50</span>
-                </div>
-                <div>
                     <p class="">Pitch [E]</p>
+                    <input class="styleRange" type="range" min="0" max="99" id="ValueCH_2" onchange="CH();"
+                        list="rangeListCH_3" />
+                    <span class="submitButton" id="rangeValueCH_2">50</span>
+                </div>
+                <div>
+                    <p class="">Throttle [T]</p>
+                    <input class="styleRange" type="range" min="0" value="0" max="99" id="ValueCH_0" onchange="CH();">
+                    <span class="submitButton" id="rangeValueCH_0">0</span>
+                </div>
+                <div>
+                    <p class="">Yaw [R]</p>
                     <div class="boxFlex">
                         <input class="styleRange rotateRange" type="range" min="0" max="99" id="ValueCH_1"
                             onchange="CH();">
-                        <span class="submitButtonRange submitButton" id="rangeValueCH_1">
-                            50
-                        </span>
+                        <span class="submitButtonRange submitButton" id="rangeValueCH_1">50</span>
                     </div>
                 </div>
             </div>
@@ -65,9 +73,9 @@
                     <span class="submitButton" id="rangeValueCH_4">10</span>OSD Mod
                 </div>
                 <div>
-                    CH 6<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_5"
+                    CH 6<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_5"
                         onchange="CH();" list="rangeListCH_6" />
-                    <span class="submitButton" id="rangeValueCH_5">50</span>Flight Modes
+                    <span class="submitButton" id="rangeValueCH_5">0</span>Flight Modes
                 </div>
                 <div>
                     CH 7<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_6"
@@ -75,14 +83,14 @@
                     <span class="submitButton" id="rangeValueCH_6">0</span>
                 </div>
                 <div>
-                    CH 8<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_7"
+                    CH 8<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_7"
                         onchange="CH();" list="rangeListCH_8" />
-                    <span class="submitButton" id="rangeValueCH_7">50</span>Arming 2.5-100%
+                    <span class="submitButton" id="rangeValueCH_7">0</span>Arming 2.5-100%
                 </div>
                 <div>
-                    CH 9<input class="styleRange CH_5" type="range" min="0" value="50" max="99" id="ValueCH_8"
+                    CH 9<input class="styleRange CH_5" type="range" min="0" value="0" max="99" id="ValueCH_8"
                         onchange="CH();" list="rangeListCH_9" />
-                    <span class="submitButton" id="rangeValueCH_8">50</span>AUTO TUNE 80-100%
+                    <span class="submitButton" id="rangeValueCH_8">0</span>
                 </div>
                 <div>
                     CH 10<input class="styleRange CH_5" type="range" min="0" value="95" max="99" id="ValueCH_9"
@@ -181,12 +189,15 @@
                 </div>
                 <div class="r2">
                     <div class="r3" id="content-14"></div>
-                    <div class="r3"> GSM пакетів/10с</div>
+                    <div class="r3"> RSSI/10с</div>
                 </div>
                 <div class="r2">
                     <div class="r3" id="content-15"></div>
                     <div class="r3"> x</div>
                 </div>
+            </div>
+            <div class="">
+                <button id="btn">Виконати PHP файл</button>
             </div>
         </div>
     </div>

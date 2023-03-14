@@ -2,26 +2,50 @@
 
 Installing and starting the server:
 
--- we are looking for a VPS or something similar, find out the IP address and whether it is possible to use web sockets on the server.
+-- we are looking for VDS, VPS or something similar, find out the IP address and whether it is possible to use web sockets on the server.
 
-1. Install lamp on the VPS server.
-2. We copy the files, in my case /var/www/html ..
-3. Assign the server IP in the file /var/www/html/php/server.php $address = 'Your IP'
-$port = your free port; //For example 10000
-4. Save the file.
-5. We launch the web socket through the console. Run the command: php /var/www/html/php/server.php
-6. Go to the IP of your web server through a web browser and control the flight
+cloning the repository and running install.sh:
+
+Install GIT:
+sudo apt-get update
+sudo apt-get install git
+
+Clone a repository:
+git clone https://github.com/zDimaBY/iNavFlightControlWebServer.git
+
+Go to the repository directory:
+cd iNavFlightControlWebServer/
+
+Run install.sh:
+sudo ./install.sh
+
+Go to the IP of your web server through a web browser, write down the IP and port.
+We launch a web socket through the console. Run the command: php /var/www/html/php/server.php
+
+Through the equipment, we switch to GSM and control the flight on the website.
 
 Встановлення та запуск сервера:
 
--- шукаємо VPS чи шось подібне, взнаєм ІП адресу та чи можливо використовувати на сервері веб сокети.
+-- шукаємо VDS, VPS чи шось подібне, взнаєм ІП адресу та чи можливо використовувати на сервері веб сокети.
 
-1. На VPS сервер встановлюємо lamp.
-2. Копіюємо файли, моєму випадку /var/www/html ..
-3. Приписуєму ІП сервера в файлі /var/www/html/php/server.php $address = 'Ваш ІП'
-$port = ваш вільний порт; //Наприклад 10000
-4. Зберігаємо файл.
-5. Через консоль запускаєм веб сокет. Водим команду: php /var/www/html/php/server.php
-6. Заходим через веб браузер на ІП вашого веб сервера та керуєм польотом
+клонування репозиторію та запуск install.sh:
+
+Встановити GIT:
+sudo apt-get update
+sudo apt-get install git
+
+Клонувати репозиторій:
+git clone https://github.com/zDimaBY/iNavFlightControlWebServer.git
+
+Перейти до каталогу репозиторію:
+cd iNavFlightControlWebServer/
+
+Запустити install.sh:
+sudo ./install.sh
+
+Заходим через веб браузер на ІП вашого веб сервера, записуєм IP та порт.
+Через консоль запускаєм веб сокет. Водим команду: php /var/www/html/php/server.php
+
+Через апаратуру переходим у GSM та на вебсайті керуєм польотом.
 
 ![Image alt](https://github.com/zDimaBY/iNavFlightControlWebServer/blob/main/img/Readme/screenshot.png)
