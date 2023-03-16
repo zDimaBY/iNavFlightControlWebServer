@@ -62,21 +62,24 @@ while (true) {
         socket_close($msgsock);
         break;
     }
-    
-    $telemetryJson->telemetry = $buf;
-    $talkback = ":$channelsJson->channels\nch\0";
 
+    $telemetryJson->telemetry = $buf;
+    
+    $channelsArray = explode(':', $channelsJson->channels); //Підгтовка пакета для відправки
+    $crc = crc16($channelsArray, count($channelsArray));//Створюєм СRC з масиву каналів
+    $talkback = ":$channelsJson->channels:$crc\nch\0";//Формуємо повідомлення отримувачу
+    
     $time_start = microtime(true);
     $elapsed_time_ms = sprintf("%.3f", ($time_start - $time_end) * 1000);
     echo "$elapsed_time_ms мс.\n"; //телеметрія $buf Канали $talkback
-    
+
     socket_write($msgsock, $talkback, strlen($talkback));
     $time_end = microtime(true);
-    
+
     if (!file_put_contents(dirname(__DIR__) . '/json/telemetry.json', json_encode($telemetryJson))) {
         echo 'Помилка запису даних у json-файл з телеметрією.' . "\n";
     }
-    
+
     if ((microtime(true) - $timeout) >= 1) {
         $timeout = microtime(true);
         echo "$countPacket пакетів на 1с\n";
@@ -86,3 +89,15 @@ while (true) {
 };
 socket_close($msgsock);
 socket_close($sock);
+
+function crc16($buffer, $size) {
+    $crc = 0;
+    for ($i = 0; $i < $size; $i++) {
+        $data = $buffer[$i];
+        for ($j = 16; $j > 0; $j--) {
+            $crc = (($crc ^ $data) & 1) ? ($crc >> 1) ^ 0x8C : ($crc >> 1);
+            $data >>= 1;
+        }
+    }
+    return $crc;
+}

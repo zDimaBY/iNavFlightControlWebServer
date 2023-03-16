@@ -86,7 +86,7 @@ function CH() {
   $.ajax({
     url: './php/updateChannels.php',
     type: 'POST',
-    data: { channelsAJAX: dataJson }, 
+    data: { channelsAJAX: dataJson },
     cache: false,
   });
 }
@@ -103,7 +103,20 @@ function show() {
     }).done(function (data) {
       if ($(content).html() !== data) {//Провірка якщо дані змінились
         if (i === 14) {
-          $(content).html(remap(data, 2, 30, -109, -53));
+          if (data == 99) {
+            $(content).html("not known ").css('color', 'red');
+          } else {
+            let signal = Math.round((data / 31) * ( -52 - (-115) ) + (-115));
+            if (signal >= -73) {
+              $(content).html(signal).css('color', 'green');
+            } else if (signal >= -83) {
+              $(content).html(signal).css('color', 'darkgreen');
+            } else if (signal >= -93) {
+              $(content).html(signal).css('color', 'yellow');
+            } else {
+              $(content).html(signal).css('color', 'red');
+            }
+          }
         } else {
           $(content).html(data);
         }
@@ -160,7 +173,7 @@ $(document).ready(function () {
         console.log("Сервер стоп");
       },
       error: function (jqXHR, textStatus, errorThrown) { // якщо сталась помилка
-        alert(textStatus . errorThrown); // виводимо текст помилки
+        alert(textStatus.errorThrown); // виводимо текст помилки
       }
     });
   });

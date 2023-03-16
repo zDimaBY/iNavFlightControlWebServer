@@ -189,7 +189,7 @@
                 </div>
                 <div class="r2">
                     <div class="r3" id="content-14"></div>
-                    <div class="r3"> RSSI/10с</div>
+                    <div class="r3"> RSSI dBm / 10с</div>
                 </div>
                 <div class="r2">
                     <div class="r3" id="content-15"></div>
