@@ -24,8 +24,8 @@ void readLoraReceiver() {
   byte packetSize = LoRa.parsePacket(); // перевірка наявності пакетів в ефірі
   if (packetSize) { // якщо пакет отримано
     LoRa.readBytes((uint8_t *)&data, packetSize);
-    byte crc = crc16((byte *)&data, sizeof(data)); // Считуємо crc посилки повністю
-    if (crc == 0 && data.ch[15] == 250) { // якщо crc вірний і одержувач це пристрій або трансляція
+    byte crcValue = crc16((byte *)&data, sizeof(data)); // Считуємо crc посилки повністю
+    if (crcValue == 0 && data.ch[15] == 250) { // якщо crc вірний і одержувач це пристрій або трансляція
       // отримано сигнал з приймача
       rcChannels[0] = map(data.ch[0], 255, 0, 1000, 2000);
       rcChannels[1] = map(data.ch[1], 255, 0, 1000, 2000);

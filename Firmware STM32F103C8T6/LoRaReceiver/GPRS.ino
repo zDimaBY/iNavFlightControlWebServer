@@ -37,7 +37,7 @@ byte sendCommandAndWaitForResponse(const char* command, const char* searchStr, u
 void parsePacketForModem(char* packetForModem, byte* channelWeb) {
   char* token = strtok(packetForModem, ":"); // розділяємо рядок за ":" та отримуємо перше значення
   byte i = 0;
-  while (token != nullptr && i < 16) {
+  while (token != nullptr && i < 17) {
     channelWeb[i] = atoi(token); // перетворюємо отримане значення у ціле число та записуємо його у масив
     token = strtok(nullptr, ":"); // отримуємо наступне значення
     i++;
@@ -76,7 +76,7 @@ void gprsINIT() {
 }
 void gprsLOOP() {
   while (gprsLoop) {
-    timeoutRTH = millis();
+    RTH();
     if (millis() - previousMillisCSQ >= 10000) {
       previousMillisCSQ = millis();
       getSignalQuality();
@@ -84,18 +84,21 @@ void gprsLOOP() {
     sendCommandAndWaitForResponse("AT+CIPSEND", ">", 1000);
     sendCommandAndWaitForResponse(creatingTelemetryMessage(telemetry), "ch", 2000);
     parsePacketForModem(packetForModem, channelWeb);
-    FOR_i(0, 15) {
-      rcChannels[i] = map(channelWeb[i + 1], 0, 100, 1000, 2000);
-      //Serial1.print(rcChannels[i]);
-      //Serial1.print(" ");
+    byte crcValue = crc16(&channelWeb[1], 16); // Считуємо crc посилки повністю
+    if (crcValue == 0) { // якщо crc вірний
+      FOR_i(0, 16) {//Запишем канали для SBUS
+        rcChannels[i] = map(channelWeb[i + 1], 0, 100, 1000, 2000);
+        //Serial1.print(rcChannels[i]);
+        //Serial1.print(" ");
+      }
+      //Serial1.println(" GSM");
+      if (rcChannels[9] < 1800) {
+        gprsLoop = false;
+      }
+      timeoutRTH = millis();
+      sbusPreparePacket(sbusPacket, rcChannels, false, false);
+      Serial2.write(sbusPacket, SBUS_PACKET_LENGTH);
     }
-    //Serial1.println(" GSM");
-    if (rcChannels[9] < 1800) {
-      gprsLoop = false;
-    }
-    sbusPreparePacket(sbusPacket, rcChannels, false, false);
-    Serial2.write(sbusPacket, SBUS_PACKET_LENGTH);
-    RTH();
   }
 }
 void gprsCLOSE() {

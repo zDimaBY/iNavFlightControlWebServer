@@ -1,5 +1,6 @@
 const net = require('net');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 const settings = JSON.parse(fs.readFileSync(__dirname + '/../json/settings.json'));
 const address = settings.ip;
@@ -9,7 +10,8 @@ let time_end = time_start = Date.now();
 let buf = '';
 
 const server = net.createServer((socket) => {
-  console.log('Connected');
+  console.log('\x1b[33m%s\x1b[0m', 'Connected');
+
 
   socket.on('data', (data) => {
     buf += data.toString().trim();
@@ -41,7 +43,7 @@ const server = net.createServer((socket) => {
   });
 
   socket.on('end', () => {
-    console.log('Disconnected');
+    console.log('\x1b[33m%s\x1b[0m', 'Disconnected');
   });
 
   socket.on('error', (err) => {
@@ -50,17 +52,33 @@ const server = net.createServer((socket) => {
 });
 
 server.on('error', (err) => {
-  console.error('Server error:', err);
+  if (err.code === 'EADDRINUSE') {
+    exec(`fuser -n tcp -k ${port}`, (err, stdout, stderr) => {
+      if (err) {
+        console.error('\x1b[31m%s\x1b[0m', 'Failed to kill process:', err);
+      } else {
+        console.log('\x1b[32m%s\x1b[0m', 'Порт був занятий, але нам вдалось його звільнити');
+      }
+    });
+  } else {
+    console.error('\x1b[31m%s\x1b[0m', 'Server error:', err);
+  }
 });
 
 server.listen(port, address, () => {
-  console.log(`Server started at ${address}:${port}`);
+  console.log('\x1b[31m%s\x1b[0m', `Server started at ${address}:${port}`);
 });
 
 setInterval(function () {
-  console.log(`${countPacket} пакетів на 1с `);
-  countPacket = 0;
+  statistics();
 }, 1000);
+
+function statistics() {
+  if (countPacket > -1) {
+    console.log('\x1b[32m%s\x1b[0m', `${countPacket} пакетів на 1с`);
+    countPacket = 0;
+  }
+}
 
 function crc16(buffer) {
   let crc = 0;

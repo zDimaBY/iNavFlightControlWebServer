@@ -1,21 +1,24 @@
 let requests = [];
 let Channel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let lat = "55.0000", lon = "30.00000";
-let prevLat = null, prevLon = null;
-let dataj;
+let lat = "0", lon = "0", prevLat = null, prevLon = null;
+let latlngs = [];
+let allValueChannels;
 
 let map = L.map('map').setView([lat, lon], 16); //Центер перегляду карти
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  id: 'MapID',
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> вкладники'
-}).addTo(map);
-L.marker([lat, lon]).addTo(map);
+L.marker([lat, lon]).addTo(map);// Маркер цетру карти перегляду
 
-let latlngs = [];
-let iCoordinates = 0;
+const osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const osmAttrib = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const googleHybridUrl = 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
+const googleHybridAttrib = 'Google Hybrid';
+
+const osmLayer = L.tileLayer(osmUrl, { id: 'MapID', attribution: osmAttrib });
+const googleHybridLayer = L.tileLayer(googleHybridUrl, { attribution: googleHybridAttrib, maxZoom: 20 }).addTo(map); // Дадаєм обєкти слоїв .addTo(map)
+const layersControl = L.control.layers({ 'OpenStreetMap': osmLayer, 'Google Hybrid': googleHybridLayer }, null, { collapsed: false }).addTo(map); // Додаєм у перемикач слої
+googleHybridLayer.addTo(map); // Щоб встановити Google Hybrid шар за замовчуванням
 
 document.onkeypress = function (evant) {
-  ValCH();// функція для отримання значень каналів
+  inputToSpan();// функція для отримання значень каналів
   let channelIndex = -1;// Ініціалізуємо змінну для зберігання індексу повзунка
   switch (evant.code) {// Використовуємо switch для опрацювання різних кодів клавіш
     case 'KeyA':
@@ -55,12 +58,12 @@ document.onkeypress = function (evant) {
   }
   if (channelIndex !== -1) {// Якщо був змінений канал, то оновлюємо та відправляємо AJAX-запит
     document.getElementById(`rangeValueCH_${channelIndex}`).innerHTML = Channel[channelIndex].value;
-    jDATA();
+    allValueChannelsInput();
     $.ajax({
       url: './php/updateChannels.php',
       type: 'POST',
       data: {
-        channelsAJAX: dataJson,
+        channelsAJAX: allValueChannels,
       },
       cache: false,
     });
@@ -68,25 +71,22 @@ document.onkeypress = function (evant) {
 };
 
 
-function ValCH() {// Оголошуємо функції для отримання значень каналів, оновлення відображення та відправки AJAX-запиту
-  for (let i = 0; i < 15; i++) {
-    let ValueCH = 'ValueCH_' + i;
-    let rangeValueCH = 'rangeValueCH_' + i;
-    Channel[i] = document.getElementById(ValueCH);
-    document.getElementById(rangeValueCH).innerHTML = Channel[i].value;
+function inputToSpan() {// Оголошуємо функції для отримання значень каналів
+  for (let i = 0; i < Channel.length; i++) {
+    Channel[i] = document.getElementById('ValueCH_' + i);
+    document.getElementById('rangeValueCH_' + i).textContent = Channel[i].value;
   }
 }
-function jDATA() {// Отримуємо значення всіх каналів та формуємо рядок з цими значеннями, розділяючи їх двокрапкою
-  const channelValues = Array.from(document.querySelectorAll('[id^=ValueCH_]')).map(channel => channel.value).join(':');
-  dataJson = channelValues;
+function allValueChannelsInput() {// Отримуємо значення всіх каналів та формуємо рядок з цими значеннями, розділяючи їх двокрапкою
+  allValueChannels = Array.from(document.querySelectorAll('[id^=ValueCH_]')).map(channel => channel.value).join(':');
 }
-function CH() {
-  ValCH();
-  jDATA();
-  $.ajax({
+function inputChannels() {//Виклик з index.php
+  inputToSpan();
+  allValueChannelsInput();
+  $.ajax({//Відправка AJAX-запиту на оновлення каналів у файлі JSON
     url: './php/updateChannels.php',
     type: 'POST',
-    data: { channelsAJAX: dataJson },
+    data: { channelsAJAX: allValueChannels },
     cache: false,
   });
 }
@@ -106,7 +106,7 @@ function show() {
           if (data == 99) {
             $(content).html("not known ").css('color', 'red');
           } else {
-            let signal = Math.round((data / 31) * ( -52 - (-115) ) + (-115));
+            let signal = Math.round((data / 31) * (-52 - (-115)) + (-115));// remap(data, 0, 31, -52, -115);
             if (signal >= -73) {
               $(content).html(signal).css('color', 'green');
             } else if (signal >= -83) {
@@ -140,6 +140,7 @@ function drawRoute() {
   if (lat !== prevLat || lon !== prevLon) {
     latlngs.push([lat, lon]);// Додаємо нову точку
     L.polyline(latlngs, { color: 'red' }).addTo(map);// Оновлюємо маршрут на карті
+    map.setView([lat, lon]);
     console.log('New point');
   }
   prevLat = lat;
